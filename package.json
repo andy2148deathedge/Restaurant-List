@@ -1,0 +1,16 @@
+{
+  "name": "handlebarsdemo",
+  "version": "1.0.0",
+  "description": "Demo for HandleBarsT\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[A\u001b[A\u001b[A\u001b[D\u001b[D\u001b[D\u001b[B\u001b[B\u001b[B\u001b[C\u001b[C\u001b[Cb\u001b[C\u001b[C\u001b[C\u001b[ Template engine",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrew Wu",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.4",
+    "nodemon": "^2.0.13"
+  }
+}

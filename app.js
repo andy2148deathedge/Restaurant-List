@@ -2,9 +2,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const hbs = require('express-handlebars');
-const restaurant = require('./restaurant.json'); // 已用該檔直接在 MONGO DB 產生種子資料 改為直接用 shop.js
+// const restaurant = require('./restaurant.json'); // 已用該檔直接在 MONGO DB 產生種子資料 改為直接用 shop.js
 const Shop = require('./models/shop');
-
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
@@ -26,8 +26,11 @@ db.once('open', () => {
   console.log('mongodb connected');
 })
 
-//setting static files
+// setting static files
 app.use(express.static('public'));
+
+// setting body-parser
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
@@ -82,6 +85,19 @@ app.get('/restaurants/:id', (req, res) => {
     })
     .catch( e => console.log(e));
 })
+
+app.get('/createForm', (req, res) => {// routing 新增/更新頁面 createForm
+  res.render('createForm');
+})
+
+app.post('/createForm/afterPost', (req, res) => {// routing post createForm 資料邏輯頁面並重定向至首頁
+  // console.log(req.body);
+  const shop = req.body;   // 從 req.body 拿出表單裡的資料
+  return Shop.create( shop )     // 存入資料庫 Shop
+    .then(() => res.redirect('/')) // 新增完成後導回首頁
+    .catch(error => console.log(error));
+})
+
 
 // sever listen
 app.listen(port, () => {

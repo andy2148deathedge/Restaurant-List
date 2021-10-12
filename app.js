@@ -1,15 +1,15 @@
 // import library
 const express = require('express');
 const mongoose = require('mongoose');
-const expshdbs = require('express-handlebars');
+const hbs = require('express-handlebars');
 const restaurant = require('./restaurant.json');
 
 const app = express();
 const port = 3000;
 
 // import handlebars
-app.engine('handlebars', expshdbs({ defaultLayout: 'main' }));
-app.set('view engine', 'handlebars');
+app.engine('hbs', hbs({ defaultLayout: 'main', extname: '.hbs' }));
+app.set('view engine', 'hbs');
 
 // connect to mongodb
 mongoose.connect('mongodb://localhost/restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true });

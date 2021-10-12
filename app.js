@@ -2,7 +2,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const hbs = require('express-handlebars');
-const restaurant = require('./restaurant.json');
+const restaurant = require('./restaurant.json'); // 已用該檔直接在 MONGO DB 產生種子資料 改為直接用 shop.js
+const Shop = require('./models/shop');
+
 
 const app = express();
 const port = 3000;
@@ -26,26 +28,59 @@ db.once('open', () => {
 
 //setting static files
 app.use(express.static('public'));
-  
+
+
+
+// ROUTING
 // index routing
 app.get('/', (req, res) => {
-  res.render('index', { restaurant: restaurant.results });  
+  // 拿 collection Shop 的資料
+  Shop.find()
+    .lean()
+    .then((shops) => {
+      res.render('index', { restaurant: shops })
+    })
+    .catch( e => console.log(e));
 })
 
 // search result routing
 app.get('/search', (req, res) => {
   let { keyword } = req.query;
-  restaurantFiltered = restaurant.results.filter(restaurant => {
-    return restaurant.name.toLowerCase().includes(keyword.toLowerCase());
-  });
+  let restaurantFiltered = [];
+  Shop.find()
+    .lean()
+    .then((shops) => {
+      for (let i = 0; i < shops.length; i++) {
+        // 符合條件的 shops item 留下
+        if ( shops[i].name.toLowerCase().includes(keyword.toLowerCase()) ) {
+          restaurantFiltered.push(shops[i]);
+        }
+      }
+    })
+    .catch( e => console.log(e));
   
+  // 再把 index 頁面用 restaurantFiltered routing 一次
   res.render('index', { restaurant: restaurantFiltered, keyword: keyword });  
 })
 
 // show page routing
 app.get('/restaurants/:id', (req, res) => {
-  let id = Number(req.params.id) - 1;
-  res.render('show', { restaurant : restaurant.results[id]});
+  let id = Number(req.params.id);
+  let shop;
+  Shop.find()
+    .lean()
+    .then((shops) => {
+      for (let i = 0; i < shops.length; i++) {
+        // 符合條件的 shops item 留下
+        if ( shops[i].shopId === id) {
+          shop = shops[i];
+        }
+      }
+
+      // show page routing
+      res.render('show', { restaurant : shop});
+    })
+    .catch( e => console.log(e));
 })
 
 // sever listen

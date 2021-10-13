@@ -12,7 +12,7 @@
   <div class="banner"></div>
 </header>
 
-<h1 class="mb-1 restaurant-show-title"> 新增餐廳 </h1>
+<h1 class="mb-1 restaurant-show-title"> 編輯餐廳 </h1>
 
 <div class="col-md-7 col-12 mx-auto" style="margin: 20px;">
   <div style="margin: 50px 0; color:rgb(25, 138, 113)">
@@ -20,51 +20,49 @@
   </div>
 
 
-  <form action="/createForm/afterPost" method="post">
+  <form action="/edited/{{shop.shopId}}" method="post">
 
     <div class="form-group">
       <label for="shopId">請輸入餐廳 ID 代號:</label>
-      <input type="number" class="form-control" id="shopId" name="shopId" min="1" required>
+      <input type="number" class="form-control" id="shopId" name="shopId" min="1" value="{{shop.shopId}}" required>
     </div>
     <div class="form-group">
       <label for="name">餐廳中文名稱: </label>
-      <input type="text" class="form-control" id="name" name="name" required>
+      <input type="text" class="form-control" id="name" name="name" value="{{shop.name}}" required>
     </div>
     <div class="form-group">
       <label for="name_en">餐廳英文名稱: </label>
-      <input type="text" class="form-control" id="name_en" name="name_en" required>
+      <input type="text" class="form-control" id="name_en" name="name_en" value="{{shop.name_en}}" required>
     </div>
     <div class="form-group">
       <label for="category">餐廳分類: </label>
-      <input type="text" class="form-control" id="category" name="category" required>
+      <input type="text" class="form-control" id="category" name="category" value="{{shop.category}}" required>
     </div>
     <div class="form-group">
       <label for="image">照片網址: </label>
-      <input type="url" class="form-control" id="image" name="image" required>
+      <input type="url" class="form-control" id="image" name="image" value="{{shop.image}}" required>
     </div>
     <div class="form-group">
       <label for="location">餐廳地址: </label>
-      <input type="text" class="form-control" id="location" name="location" required>
+      <input type="text" class="form-control" id="location" name="location" value="{{shop.location}}" required>
     </div>
     <div class="form-group">
       <label for="phone">電話: </label>
-      <input type="text" class="form-control" id="phone" name="phone" required>
+      <input type="text" class="form-control" id="phone" name="phone" value="{{shop.phone}}" required>
     </div>
     <div class="form-group">
       <label for="google_map">Google Map 連結: </label>
-      <input type="url" class="form-control" id="google_map" name="google_map" required>
+      <input type="url" class="form-control" id="google_map" name="google_map" value="{{shop.google_map}}" required>
     </div>
     <div class="form-group">
       <label for="rating">評分:</label>
-      <input type="number" class="form-control" id="rating" name="rating" step="0.1" max="5" min="0" required>
+      <input type="number" class="form-control" id="rating" name="rating" step="0.1" max="5" min="0" value="{{shop.rating}}" required>
     </div>
     <div class="form-group">
       <label for="description">餐廳敘述:</label>
-      <input type="text" class="form-control" id="description" name="description" aria-describedby="descriptionHelp">
+      <input type="text" class="form-control" id="description" name="description" value="{{shop.description}}" aria-describedby="descriptionHelp">
       <small id="descriptionHelp" class="form-text text-muted">請輸入餐廳的簡介敘述</small>
     </div>
-    
-    
 
     <div class="col-md-2 col-12 mx-auto" style="margin: 5rem;">
       <button type="submit" class="btn btn-info">更新此筆</button>

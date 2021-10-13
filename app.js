@@ -6,6 +6,7 @@ const hbs = require('express-handlebars');
 const Shop = require('./models/shop');
 const bodyParser = require('body-parser');
 
+// express setting
 const app = express();
 const port = 3000;
 
@@ -35,8 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // ROUTING
-// index routing
-app.get('/', (req, res) => {
+app.get('/', (req, res) => { // index routing
   // 拿 collection Shop 的資料
   Shop.find()
     .lean()
@@ -46,8 +46,7 @@ app.get('/', (req, res) => {
     .catch( e => console.log(e));
 })
 
-// search result routing
-app.get('/search', (req, res) => {
+app.get('/search', (req, res) => { // search result routing
   let { keyword } = req.query;
   let restaurantFiltered = [];
   Shop.find()
@@ -66,8 +65,8 @@ app.get('/search', (req, res) => {
   res.render('index', { restaurant: restaurantFiltered, keyword: keyword });  
 })
 
-// show page routing
-app.get('/restaurants/:id', (req, res) => {
+
+app.get('/restaurants/:id', (req, res) => {// routing 個別餐廳頁面
   let id = Number(req.params.id);
   let shop;
   Shop.find()
@@ -91,13 +90,34 @@ app.get('/createForm', (req, res) => {// routing 新增/更新頁面 createForm
 })
 
 app.post('/createForm/afterPost', (req, res) => {// routing post createForm 資料邏輯頁面並重定向至首頁
-  // console.log(req.body);
   const shop = req.body;   // 從 req.body 拿出表單裡的資料
+
   return Shop.create( shop )     // 存入資料庫 Shop
     .then(() => res.redirect('/')) // 新增完成後導回首頁
     .catch(error => console.log(error));
 })
 
+app.get('/restaurants/:id/edit', (req, res) => { // routing 編輯單筆餐廳頁面 
+  const id = req.params.id;
+
+  return Shop.findOne({ shopId: id })
+    .lean()
+    .then( shop => {
+      res.render('edit', { shop });
+    })
+    .catch(error => console.log(error));
+})
+
+app.post('/edited/:id', (req, res) => { // routing post edit 資料邏輯頁面並重定向至首頁
+  const id = req.params.id;
+  const shop = req.body;
+
+  return Shop.updateOne({ shopId: id }, shop)
+    .then(
+      () => res.redirect('/')
+    )
+    .catch(error => console.log(error));
+})
 
 // sever listen
 app.listen(port, () => {

@@ -119,6 +119,19 @@ app.post('/edited/:id', (req, res) => { // routing post edit 資料邏輯頁面�
     .catch(error => console.log(error));
 })
 
+app.get('/restaurants/:id/delete', (req, res) => { // routing delete function & redirect to index
+  const id = req.params.id;
+
+  return Shop.findOneAndDelete({ shopId: id })
+    .then( (meg) => {
+      console.log(`deleted object: ${meg}`);
+    })
+    .then( 
+      () => res.redirect('/')
+    )
+    .catch(error => console.log(error));
+})
+
 // sever listen
 app.listen(port, () => {
   console.log(`Server is listening in port ${port}.`);

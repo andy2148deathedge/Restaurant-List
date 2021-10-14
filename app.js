@@ -2,9 +2,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const hbs = require('express-handlebars');
-// const restaurant = require('./restaurant.json'); // 已用該檔直接在 MONGO DB 產生種子資料 改為直接用 shop.js
-const Shop = require('./models/shop');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+
+// import self made library
+const Shop = require('./models/shop');
 
 // express setting
 const app = express();
@@ -33,13 +35,15 @@ app.use(express.static('public'));
 // setting body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+// setting method-override
+app.use(methodOverride('_method'));
 
 // ROUTING
 app.get('/', (req, res) => { // index routing
   // 拿 collection Shop 的資料
   Shop.find()
     .lean()
+    .sort({ _id: 'asc'}) // asc <=> desc 
     .then((shops) => {
       res.render('index', { restaurant: shops })
     })
@@ -85,11 +89,11 @@ app.get('/restaurants/:id', (req, res) => {// routing 個別餐廳頁面
     .catch( e => console.log(e));
 })
 
-app.get('/createForm', (req, res) => {// routing 新增/更新頁面 createForm
+app.get('/restaurant/create', (req, res) => {// routing 新增/更新頁面 createForm
   res.render('createForm');
 })
 
-app.post('/createForm/afterPost', (req, res) => {// routing post createForm 資料邏輯頁面並重定向至首頁
+app.post('/restaurant', (req, res) => {// routing post createForm 資料邏輯頁面並重定向至首頁
   const shop = req.body;   // 從 req.body 拿出表單裡的資料
 
   return Shop.create( shop )     // 存入資料庫 Shop
@@ -108,7 +112,7 @@ app.get('/restaurants/:id/edit', (req, res) => { // routing 編輯單筆餐廳�
     .catch(error => console.log(error));
 })
 
-app.post('/edited/:id', (req, res) => { // routing post edit 資料邏輯頁面並重定向至首頁
+app.put('/restaurant/:id', (req, res) => { // routing post edit 資料邏輯頁面並重定向至首頁
   const id = req.params.id;
   const shop = req.body;
 
@@ -119,7 +123,7 @@ app.post('/edited/:id', (req, res) => { // routing post edit 資料邏輯頁面�
     .catch(error => console.log(error));
 })
 
-app.get('/restaurants/:id/delete', (req, res) => { // routing delete function & redirect to index
+app.delete('/restaurants/:id', (req, res) => { // routing delete function & redirect to index
   const id = req.params.id;
 
   return Shop.findOneAndDelete({ shopId: id })

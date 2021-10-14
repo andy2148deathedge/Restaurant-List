@@ -50,9 +50,9 @@
 
       <img class="rounded mx-auto d-block mb-4 w-100" src={{restaurant.image}} alt={{restaurant.name}}style="max-width: 600px;">
 
-      <a href="./{{restaurant.shopId}}/delete">
+      <form action="./{{restaurant.shopId}}?_method=DELETE" method="POST">
         <button type="submit" class="btn btn-danger" style="margin:0 10px 100px 10px; float:right">刪除此筆</button>
-      </a>
+      </form>
       <a href="./{{restaurant.shopId}}/edit">
         <button type="submit" class="btn btn-primary" style="margin:0 10px 100px 10px; float:right">更新此筆</button>
       </a>

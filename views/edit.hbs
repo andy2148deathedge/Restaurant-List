@@ -6,12 +6,8 @@
   </div>
 
 
-  <form action="/restaurants/{{shop.shopId}}?_method=PUT" method="post">
+  <form action="/restaurants/{{shop._id}}?_method=PUT" method="post">
 
-    <div class="form-group">
-      <label for="shopId">請輸入餐廳 ID 代號:</label>
-      <input type="number" class="form-control" id="shopId" name="shopId" min="1" value="{{shop.shopId}}" required>
-    </div>
     <div class="form-group">
       <label for="name">餐廳中文名稱: </label>
       <input type="text" class="form-control" id="name" name="name" value="{{shop.name}}" required>

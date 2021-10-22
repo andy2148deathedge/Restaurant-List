@@ -16,7 +16,6 @@ db.once('open', () => {
   // 這邊要從 restaurant.json 引入餐廳資料
   restaurant.results.forEach(shop => {
     Shop.create({
-      shopId: shop.id,
       name: shop.name,
       name_en: shop.name_en,
       category: shop.category,

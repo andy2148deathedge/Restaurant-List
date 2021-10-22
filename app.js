@@ -7,6 +7,7 @@ const methodOverride = require('method-override');
 
 // import self made library
 const routes = require('./routes');
+const usePassport = require('./config/passport');
 require('./config/mongoose');
 
 // express setting
@@ -26,6 +27,8 @@ app.use(sessions({
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+
+usePassport(app);
 
 // routing
 app.use(routes);

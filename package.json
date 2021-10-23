@@ -24,7 +24,9 @@
     "nodemon": "^2.0.13",
     "passport": "^0.5.0",
     "passport-facebook": "^3.0.0",
-    "passport-local": "^1.0.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
     "standard": "^16.0.4"
   }
 }

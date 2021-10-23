@@ -47,5 +47,5 @@ app.use(routes);
 
 // server listen
 app.listen(PORT, () => {
-  console.log(`Server is listening in port ${PORT}.`);
+  console.log(`Server is listening on port ${PORT}.`);
 })

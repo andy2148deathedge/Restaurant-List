@@ -5,6 +5,9 @@ const hbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 // import self made library
 const routes = require('./routes');
@@ -13,7 +16,7 @@ require('./config/mongoose');
 
 // express setting
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT;
 
 // settings & middleware
 app.engine('hbs', hbs({ defaultLayout: 'main', extname: '.hbs' }));
@@ -43,6 +46,6 @@ app.use((req, res, next) => {
 app.use(routes);
 
 // server listen
-app.listen(port, () => {
-  console.log(`Server is listening in port ${port}.`);
+app.listen(PORT, () => {
+  console.log(`Server is listening in port ${PORT}.`);
 })

@@ -26,7 +26,6 @@ const restaurantInfo = restaurant.results;
 db.once('open', () => {
   console.log('mongodb connected');
 
-  // 這邊要從 restaurant.json 引入餐廳資料
   Promise.all(seedUsers.map(seedUser =>
     bcrypt
       .genSalt(10)
@@ -37,9 +36,7 @@ db.once('open', () => {
         password: hash
       }))
       .then(user => {
-        // 從restaurant_data中篩選出含有在SEED_USER的restaurantsID中的餐廳
         const shops = restaurantInfo.filter(shop => seedUser.shopId.includes(shop.id))
-        // 將選出的餐廳，設定他們的userId是user資料庫所產生的id
         shops.forEach(shop => { shop.userId = user._id })
         return Shop.create(shops);
       })
